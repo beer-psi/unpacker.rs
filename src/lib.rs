@@ -18,10 +18,10 @@ use alloc::{
 use crate::substring::Substring;
 
 pub fn unpack<T: AsRef<str>>(packed: T) -> String {
-    let packed_raw = packed.as_ref().to_string();
-    let left_index = packed_raw.find("}('").unwrap_or(0) + 3;
-    let right_index = packed_raw.find(".split('|'),0,{}))").unwrap_or(0);
-    let packed = String::from(&packed_raw[left_index..right_index]).replace("\\'", "\"");
+    let packed = packed.as_ref().to_string()
+        .substring_after("}('")
+        .substring_before(".split('|'),0,{}))")
+        .replace("\\'", "\"");
 
     let data = packed.substring_before("',");
     if data.is_empty() {
