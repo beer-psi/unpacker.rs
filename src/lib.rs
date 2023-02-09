@@ -8,6 +8,10 @@
 
 #[cfg(test)]
 mod tests;
+
+#[cfg(test)]
+mod benches;
+
 mod substring;
 
 extern crate alloc;
@@ -30,8 +34,8 @@ pub fn unpack<T: AsRef<str>>(packed: T) -> String {
 
     let dict_str = packed
         .substring_after("',")
-        .substring_after("'")
-        .substring_before("'");
+        .substring_after('\'')
+        .substring_before('\'');
     let dictionary = dict_str.split('|').collect::<Vec<_>>();
     let len = dictionary.len();
 
@@ -49,7 +53,7 @@ pub fn unpack<T: AsRef<str>>(packed: T) -> String {
                 } else {
                     ret.push_str(dictionary[index]);
                 }
-                accum = String::new();
+                accum.clear();
             }
             ret.push(char);
         }
